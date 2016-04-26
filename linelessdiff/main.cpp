@@ -45,6 +45,15 @@ public:
 };
 
 
+void	print_differences( const vector<difference>& differences )
+{
+	for( const difference& currDifference : differences )
+	{
+		currDifference.print();
+	}
+}
+
+
 void	determine_identicals( const char* inOriginal, size_t inOriginalLen, const char* inModified, size_t inModifiedLen, std::vector<difference>* inDifferences )
 {
 	difference		currDifference;
@@ -188,16 +197,8 @@ void	determine_differences( const char* inOriginal, size_t inOriginalLen, const 
 {
 	vector<difference>	differences;
 	determine_identicals( inOriginal, inOriginalLen, inModified, inModifiedLen, &differences );
+	print_differences( differences );
 	mark_up_differences( differences, inDifferences );
-}
-
-
-void	print_differences( const vector<difference>& differences )
-{
-	for( const difference& currDifference : differences )
-	{
-		currDifference.print();
-	}
 }
 
 
@@ -213,22 +214,42 @@ int main(int argc, const char * argv[])
 	print_differences( differences );
 	cout << endl;
 	
-	cout << original << endl;
-	cout << modified << endl;
 	differences.resize(0);
 	original = "Well, there you go.";
 	modified = "There you go.";
+	cout << original << endl;
+	cout << modified << endl;
 	determine_differences( original, strlen(original), modified, strlen(modified), &differences );
 	print_differences( differences );
 	cout << endl;
 
-	cout << original << endl;
-	cout << modified << endl;
 	differences.resize(0);
 	original = "There you go.";
 	modified = "There you go.";
+	cout << original << endl;
+	cout << modified << endl;
 	determine_differences( original, strlen(original), modified, strlen(modified), &differences );
 	print_differences( differences );
+	cout << endl;
+
+	differences.resize(0);
+	original = "";
+	modified = "";
+	cout << original << endl;
+	cout << modified << endl;
+	determine_differences( original, strlen(original), modified, strlen(modified), &differences );
+	print_differences( differences );
+	cout << endl;
+
+// To do: The following hangs in determine_identicals:
+//	differences.resize(0);
+//	original = "Well, there you go.";
+//	modified = "There you go, dork.";
+//	cout << original << endl;
+//	cout << modified << endl;
+//	determine_differences( original, strlen(original), modified, strlen(modified), &differences );
+//	print_differences( differences );
+//	cout << endl;
 	
     return 0;
 }
